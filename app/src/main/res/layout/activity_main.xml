@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <!--
+    Кнопка! Из примечательного только атрибут id, который необходим для взаимодействия с ней
+    в коде (см. MainActivity)
+    -->
+    <Button
+        android:id="@+id/lab1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lab1" />
+
+    <Button
+        android:id="@+id/lab2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lab2" />
+
+    <Button
+        android:id="@+id/lab3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lab3" />
+
+    <Button
+        android:id="@+id/lab4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lab4" />
+
+    <Button
+        android:id="@+id/lab5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lab5" />
+
+    <Button
+        android:id="@+id/lab6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lab6" />
+
+</LinearLayout>

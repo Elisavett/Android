@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Lab5</string>
+    <string name="lab5_title">I\'m %s!</string>
+</resources>
