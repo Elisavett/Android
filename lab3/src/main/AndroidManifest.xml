@@ -3,7 +3,9 @@
     package="com.example.lab3">
 
     <application>
-        <activity android:name=".Lab3Activity"></activity>
+<!--        <activity android:name=".AddGroupActivity"></activity>-->
+        <activity android:name=".AddStudentActivity" />
+        <activity android:name=".Lab3Activity" />
     </application>
 
 </manifest>
