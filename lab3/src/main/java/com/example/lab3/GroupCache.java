@@ -12,19 +12,18 @@ import java.util.Set;
 public class GroupCache {
     private static GroupCache instance;
 
-    /**
-     * Классическая реализация паттерна Singleton. Нам необходимо, чтобы в приложении был только
-     * один кэш студентов.
-     */
     public static GroupCache getInstance() {
         if (instance == null) {
             //
             synchronized (GroupCache.class) {
                 if (instance == null) {
                     instance = new GroupCache();
+                    instance.groups.add(new Group("8i6a"));
+                    instance.groups.add(new Group("8i6b"));
                 }
             }
         }
+
         return instance;
     }
 
@@ -43,8 +42,7 @@ public class GroupCache {
     }
     @NonNull
     public List<Group> getGroups() {
-        groups.add(new Group("8i6a"));
-        groups.add(new Group("8i6b"));
+
         return new ArrayList<>(groups);
 
     }

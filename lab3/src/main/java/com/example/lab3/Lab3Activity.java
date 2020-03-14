@@ -133,13 +133,8 @@ public class Lab3Activity extends AppCompatActivity {
                     Group group = new Group(
                             groupName.getText().toString()
                     );
-                    Intent data = new Intent();
-                    // Сохраяем объект студента. Для того, чтобы сохранить объект класса, он должен реализовывать
-                    // интерфейс Parcelable или Serializable, т.к. Intent передаётся в виде бинарных данных
-                    data.putExtra(EXTRA_GROUP, group);
-                    Group group1 = data.getParcelableExtra(EXTRA_GROUP);
 
-                    groupsCache.addGroup(group1);
+                    groupsCache.addGroup(group);
 
                     //studentsAdapter.setGroups(groupsCache.getGroups());
 
@@ -185,17 +180,15 @@ public class Lab3Activity extends AppCompatActivity {
             }
             list.setAdapter(studentsAdapter = new StudentsAdapter());
             studentsAdapter.setStudents(sortedStudents);
-            studentsAdapter.notifyItemRangeInserted(studentsAdapter.getItemCount() - 2, 2);
+            int insertionIndx = sortedStudents.indexOf(student);
+            int insertionCount = 1;
+            if(insertionIndx == sortedStudents.size()-1)//при добавлении студента он ставится первым в группе(sortStudents)
+            {
+                insertionCount++;//в данном случае кроме студента добавляется группа
+                insertionIndx--;//группа указывается перед студентом
+            }
+            studentsAdapter.notifyItemRangeInserted(insertionIndx, insertionCount);
             list.scrollToPosition(studentsAdapter.getItemCount() - 1);
         }
-        /*if (requestCode == REQUEST_GROUP_ADD && resultCode == RESULT_OK) {
-            Group group = data.getParcelableExtra(EXTRA_GROUP);
-
-            groupsCache.addGroup(group);
-
-            studentsAdapter.setGroups(groupsCache.getGroups());
-            studentsAdapter.notifyItemRangeInserted(studentsAdapter.getItemCount() - 2, 2);
-            list.scrollToPosition(studentsAdapter.getItemCount() - 1);
-        }*/
     }
 }
