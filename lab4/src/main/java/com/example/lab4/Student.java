@@ -17,7 +17,6 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "students")
 public class Student extends ListItem implements Parcelable {
 
-
 	@PrimaryKey(autoGenerate = true)
 	public int id;
 	@NonNull

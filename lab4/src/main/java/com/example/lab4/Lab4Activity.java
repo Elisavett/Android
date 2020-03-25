@@ -121,10 +121,12 @@ public class Lab4Activity extends AppCompatActivity {
         return super.onCreateDialog(id);
     }
     boolean isFromAddStudentActivity = false;
+
     @Override
     protected void onResume() {
         if(isFromAddStudentActivity == false) {
-            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            final SharedPreferences preferences = PreferenceManager
+                    .getDefaultSharedPreferences(this);
             int position = preferences.getInt("position", 0);
             list.scrollToPosition(position);
             isFromAddStudentActivity = false;
@@ -133,13 +135,14 @@ public class Lab4Activity extends AppCompatActivity {
     }
     @Override
     protected void onPause() {
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int firstVisiblePosition = ((LinearLayoutManager) list.getLayoutManager()).findFirstVisibleItemPosition();
+        SharedPreferences preferences = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        int firstVisiblePosition = ((LinearLayoutManager) list.getLayoutManager())
+                .findFirstVisibleItemPosition();
         preferences.edit().putInt("position", firstVisiblePosition).apply();
         super.onPause();
-
     }
+
     public List<ListItem> sortStudents (List<Student> unsortedStudents)
     {
         boolean isFound;
@@ -194,4 +197,5 @@ public class Lab4Activity extends AppCompatActivity {
             isNewGroup = 0;
         }
     }
+
 }
