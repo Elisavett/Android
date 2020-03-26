@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,15 +26,17 @@ public class SearchTask extends Task<List<Repo>> {
 
     @Override
     protected List<Repo> executeInBackground() throws Exception {
-        String response = search();
-        return parseSearch(response);
+
+            String response = search();
+            return parseSearch(response);
+
     }
 
     private String search() throws IOException {
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://api.github.com/search/repositories?q=" + repoString +"?page=" + pageCount + "&per_page=20")
+                .url("https://api.github.com/search/repositories?q=" + repoString +"&page=" + pageCount + "&per_page=20")
                 .build();
         Response response = client.newCall(request).execute();
 

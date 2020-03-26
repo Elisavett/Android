@@ -58,14 +58,12 @@ import java.util.Stack;
 public class RepoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    private List<String> reposStringsFiltered;
+    private List<Repo> reposStringsFiltered;
 
     public RepoAdapter(List<Repo> repos) {
 
-        reposStringsFiltered = new ArrayList<String>();
-        for (int i = 0; i<repos.size(); i++) {
-            reposStringsFiltered.add(i+ " " + repos.get(i).fullName);
-        }
+        reposStringsFiltered = new ArrayList<Repo>();
+        reposStringsFiltered.addAll(repos);
         //reposStrings = new ArrayList<String>(reposStringsFiltered);
     }
 
@@ -78,68 +76,17 @@ public class RepoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         RepoHolder repoHolder = (RepoHolder) holder;
-        String repoString = reposStringsFiltered.get(position);
-        repoHolder.repo.setText(repoString);
+        Repo repo = reposStringsFiltered.get(position);
+        repoHolder.repo.setText((position+1) + " " + repo.fullName);
+        repoHolder.description.setText(repo.description == "null" ? "No description" : repo.description);
     }
 
     @Override
     public int getItemCount() {
         return reposStringsFiltered.size();
     }
-    public void clear() {
-        reposStringsFiltered.clear();
-        notifyDataSetChanged();
-    }
 
-    // Add a list of items -- change to type used
-    public void addAll(List<Repo> repos) {
-        //reposStringsFiltered = new ArrayList<String>();
-        for (int i = 0; i<repos.size(); i++) {
-            reposStringsFiltered.add(i+ " " + repos.get(i).fullName);
-        }
-        notifyDataSetChanged();
-    }
 
-    /*@Override
-    public Filter getFilter() {
 
-        return myFilter;
-    }
-
-    Filter myFilter = new Filter() {
-
-        //Automatic on background thread
-        @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
-
-                List<String> filteredList = new ArrayList<>();
-
-                if (charSequence == null || charSequence.length() <= 2) {
-
-                    filteredList.addAll(reposStrings);
-                } else {
-                    for (String movie : reposStrings) {
-                        if (movie.toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                            filteredList.add(movie);
-                        }
-                    }
-                }
-
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = filteredList;
-
-            return filterResults;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-
-                reposStringsFiltered.clear();
-                reposStringsFiltered.addAll((Collection<? extends String>) results.values);
-                notifyDataSetChanged();
-
-        }
-
-    };*/
 }
 

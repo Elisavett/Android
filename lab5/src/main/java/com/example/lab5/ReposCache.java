@@ -11,6 +11,7 @@ public class ReposCache {
     private static ReposCache instance;
 
 
+
     public static ReposCache getInstance() {
         if (instance == null) {
             //
@@ -23,7 +24,9 @@ public class ReposCache {
         return instance;
     }
 
-    private Set<Repo> repos= new LinkedHashSet<>();
+    private List<Repo> repos= new ArrayList<>();
+    private int pageCount;
+    private String searchWord;
 
     private ReposCache() {
     }
@@ -32,7 +35,22 @@ public class ReposCache {
     public List<Repo> getRepos() {
         return new ArrayList<>(repos);
     }
-
+    @NonNull
+    public String getSearchWord() {
+        return searchWord;
+    }
+    @NonNull
+    public void setSearchWord(String pc) {
+        searchWord = pc;
+    }
+    @NonNull
+    public int getPageCount() {
+        return pageCount;
+    }
+    @NonNull
+    public void setPageCount(int pc) {
+        pageCount = pc;
+    }
     public void clear() {
         repos.clear();
     }
@@ -40,7 +58,4 @@ public class ReposCache {
         repos.add(repo);
     }
 
-    public boolean contains(@NonNull Repo student) {
-        return repos.contains(student);
-    }
 }

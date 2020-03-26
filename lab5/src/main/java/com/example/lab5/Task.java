@@ -62,23 +62,25 @@ public abstract class Task<T> implements Runnable{
             });
 
         } catch (final Exception e) {
+              if (e.getClass() != java.io.InterruptedIOException.class) {
+                mainHandler.post(new Runnable() {
 
-            mainHandler.post(new Runnable() {
+                    @Override
 
-                @Override
+                    public void run() {
 
-                public void run() {
+                        if (observer != null) {
 
-                    if (observer != null) {
+                                observer.onError(Task.this, e);
 
-                        observer.onError(Task.this, e);
+
+                        }
 
                     }
 
-                }
+                });
 
-            });
-
+              }
         }
 
     }

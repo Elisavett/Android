@@ -36,13 +36,32 @@
         android:layout_centerInParent="true"
         android:visibility="invisible"/>
 
-    <Button
-        android:id="@+id/button"
+    <LinearLayout
+        android:id="@+id/ErrorLayout"
         android:layout_width="wrap_content"
+        android:padding="25dp"
         android:layout_height="wrap_content"
-        android:text="Повторить запрос"
         android:layout_centerInParent="true"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:orientation="vertical"
+        android:background="@android:color/white">
+        <TextView
+            android:id="@+id/ErrorMesg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="20dp"
+            android:textAlignment="center">
+        </TextView>
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Повторить запрос"
+
+            />
+    </LinearLayout>
+
 
 
 </RelativeLayout>
