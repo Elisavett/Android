@@ -25,6 +25,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,6 +61,7 @@ public class Lab3Activity extends AppCompatActivity {
     public static Intent newIntent(@NonNull Context context) {
         return new Intent(context, Lab3Activity.class);
     }
+
     private final StudentsCache studentsCache = StudentsCache.getInstance();
     private final GroupCache groupsCache = GroupCache.getInstance();
 
@@ -74,6 +76,7 @@ public class Lab3Activity extends AppCompatActivity {
 
 
     private StudentsAdapter studentsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +98,7 @@ public class Lab3Activity extends AppCompatActivity {
          */
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         list.setLayoutManager(layoutManager);
-
+        list.setAdapter(studentsAdapter = new StudentsAdapter());
         /*
         Следующий ключевой компонент - это RecyclerView.Adapter. В нём описывается вся информация,
         необходимая для заполнения RecyclerView. В примере мы выводим пронумерованный список
@@ -115,35 +118,27 @@ public class Lab3Activity extends AppCompatActivity {
                         REQUEST_STUDENT_ADD
                 )
         );
-        fabGroup.setOnClickListener(v->showDialog(DIALOG_EXIT));
+        fabGroup.setOnClickListener(v -> dialogShow());
     }
 
-    protected Dialog onCreateDialog(int id) {
+    public void dialogShow() {
         EditText groupName = new EditText(this);
-        if (id == DIALOG_EXIT) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.lab3_dialog_title)
+                .setView(groupName)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
 
-            //LayoutInflater inflater = getLayoutInflater();
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            // заголовок
-            builder.setTitle(R.string.lab3_dialog_title)
-                    .setView(groupName)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
+                        Group group = new Group(
+                                groupName.getText().toString()
+                        );
 
-                    Group group = new Group(
-                            groupName.getText().toString()
-                    );
+                        groupsCache.addGroup(group);
 
-                    groupsCache.addGroup(group);
-
-                    //studentsAdapter.setGroups(groupsCache.getGroups());
-
-                }
-            });
-            return builder.create();
-        }
-        return super.onCreateDialog(id);
+                    }
+                }).show();
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -156,33 +151,30 @@ public class Lab3Activity extends AppCompatActivity {
             boolean isFound;
             List<Student> unsortedStudents = studentsCache.getStudents();
             List<ListItem> sortedStudents = new ArrayList<>();
-            for (int j = 0; j < unsortedStudents.size(); j++ ) {
+            for (int j = 0; j < unsortedStudents.size(); j++) {
                 isFound = false;
                 Student currStudent = unsortedStudents.get(j);
-                for(int i = 0; i < sortedStudents.size(); i++)
-                {
-                    if(sortedStudents.get(i).getType() == 0) continue;
-                    Student st = (Student)sortedStudents.get(i);
+                for (int i = 0; i < sortedStudents.size(); i++) {
+                    if (sortedStudents.get(i).getType() == 0) continue;
+                    Student st = (Student) sortedStudents.get(i);
                     String currStudentGroup = st.groupName;
-                    if(currStudentGroup.equals(currStudent.groupName))
-                    {
+                    if (currStudentGroup.equals(currStudent.groupName)) {
                         sortedStudents.add(i, currStudent);
                         isFound = true;
                         break;
                     }
                 }
-                if(isFound == false)
-                {
+                if (isFound == false) {
                     Group group = new Group(currStudent.groupName);
                     sortedStudents.add(group);
                     sortedStudents.add(currStudent);
                 }
             }
-            list.setAdapter(studentsAdapter = new StudentsAdapter());
+
             studentsAdapter.setStudents(sortedStudents);
             int insertionIndx = sortedStudents.indexOf(student);
             int insertionCount = 1;
-            if(insertionIndx == sortedStudents.size()-1)//при добавлении студента он ставится первым в группе(sortStudents)
+            if (insertionIndx == sortedStudents.size() - 1)//при добавлении студента он ставится первым в группе(sortStudents)
             {
                 insertionCount++;//в данном случае кроме студента добавляется группа
                 insertionIndx--;//группа указывается перед студентом

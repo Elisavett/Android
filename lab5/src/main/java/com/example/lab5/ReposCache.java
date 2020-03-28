@@ -11,7 +11,6 @@ public class ReposCache {
     private static ReposCache instance;
 
 
-
     public static ReposCache getInstance() {
         if (instance == null) {
             //
@@ -24,7 +23,7 @@ public class ReposCache {
         return instance;
     }
 
-    private List<Repo> repos= new ArrayList<>();
+    private List<Repo> repos = new ArrayList<>();
     private int pageCount;
     private String searchWord;
 
@@ -35,25 +34,31 @@ public class ReposCache {
     public List<Repo> getRepos() {
         return new ArrayList<>(repos);
     }
+
     @NonNull
     public String getSearchWord() {
         return searchWord;
     }
+
     @NonNull
     public void setSearchWord(String pc) {
         searchWord = pc;
     }
+
     @NonNull
     public int getPageCount() {
         return pageCount;
     }
+
     @NonNull
     public void setPageCount(int pc) {
         pageCount = pc;
     }
+
     public void clear() {
         repos.clear();
     }
+
     public void addRepo(@NonNull Repo repo) {
         repos.add(repo);
     }

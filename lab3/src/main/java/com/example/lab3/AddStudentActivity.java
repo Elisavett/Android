@@ -23,7 +23,6 @@ public class AddStudentActivity extends AppCompatActivity {
     private static final String EXTRA_STUDENT = "student";
 
 
-
     public static Intent newIntent(@NonNull Context context) {
 
         return new Intent(context, AddStudentActivity.class);
@@ -62,21 +61,19 @@ public class AddStudentActivity extends AppCompatActivity {
         group = findViewById(R.id.SpinnerGroups);
 
 
-
         ArrayAdapter<Group> adapter = new ArrayAdapter<Group>(this,
                 android.R.layout.simple_spinner_item, groupCache.getGroups());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         group.setAdapter(adapter);
         Bundle arguments = getIntent().getExtras();
         Student student = null;
-        if(arguments!=null)
-            student = (Student)arguments.get("Student");
-        if(student!=null)
-        {
+        if (arguments != null)
+            student = (Student) arguments.get("Student");
+        if (student != null) {
             firstName.setText(student.firstName);
             secondName.setText(student.secondName);
             lastName.setText(student.lastName);
-            Group g =groupCache.getGroupByName(student.groupName);
+            Group g = groupCache.getGroupByName(student.groupName);
             group.setSelection(adapter.getPosition(g));
         }
     }

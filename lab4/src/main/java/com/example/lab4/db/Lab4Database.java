@@ -1,3 +1,4 @@
+
 package com.example.lab4.db;
 
 import android.content.Context;
@@ -9,6 +10,7 @@ import androidx.room.RoomDatabase;
 
 import com.example.lab4.Group;
 import com.example.lab4.Student;
+
 
 /**
  * <p>
@@ -29,16 +31,19 @@ import com.example.lab4.Student;
  * Room возвращает нам инстанс уже сгенерированной реализации БД.
  * </p>
  */
+
 @Database(entities = {Group.class, Student.class}, version = 1, exportSchema = false)
 public abstract class Lab4Database extends RoomDatabase {
 
     private static Lab4Database db;
+
 
     /**
      * Синглетон, в котором происходит инициализация и настройка самой БД. Используем синглетон,
      * т.к. инстанс класса БД должен быть только один (т.ё. в нём происходит управление
      * соединением к БД).
      */
+
     @NonNull
     public static Lab4Database getInstance(@NonNull Context context) {
         if (db == null) {
@@ -65,5 +70,6 @@ public abstract class Lab4Database extends RoomDatabase {
     }
 
     public abstract GroupDao groupDao();
+
     public abstract StudentDao studentDao();
 }

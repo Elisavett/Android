@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AndroidApp</string>
+    <string name="lab1">lab1</string>
+    <string name="lab2">lab2</string>
+    <string name="lab3">lab3</string>
+    <string name="lab4">lab4</string>
+    <string name="lab5">lab5</string>
+    <string name="lab6">lab6</string>
 </resources>

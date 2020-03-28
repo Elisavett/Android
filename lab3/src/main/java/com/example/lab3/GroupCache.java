@@ -31,15 +31,15 @@ public class GroupCache {
 
     private GroupCache() {
     }
-    public Group getGroupByName(String name)
-    {
-        for(Group g:groups)
-        {
-            if(name.equals(g.groupName))
+
+    public Group getGroupByName(String name) {
+        for (Group g : groups) {
+            if (name.equals(g.groupName))
                 return g;
         }
         return null;
     }
+
     @NonNull
     public List<Group> getGroups() {
 

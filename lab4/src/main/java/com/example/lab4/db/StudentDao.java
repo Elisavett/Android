@@ -29,7 +29,7 @@ public interface StudentDao {
                     "first_name = :firstName AND " +
                     "second_name = :secondName AND " +
                     "last_name = :lastName AND " +
-                    "group_name = :groupName"
+                    "group_id = :groupId"
     )
-    int count(@NonNull String firstName, @NonNull String secondName, @NonNull String lastName, @NonNull String groupName);
+    int count(@NonNull String firstName, @NonNull String secondName, @NonNull String lastName, @NonNull int groupId);
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lab2_title">I\'m %s!</string>
+    <string name="lab2_btn_add_view">Добавить</string>
+    <string name="lab2_progress">Значение прогресса</string>
+    <string name="lab2_progress_name">Название</string>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Приложение андроид</string>
+    <string name="lab1">Лаба 1</string>
+    <string name="lab2">Лаба 2</string>
+    <string name="lab3">Лаба 3</string>
+    <string name="lab4">Лаба 4</string>
+    <string name="lab5">Лаба 5</string>
+    <string name="lab6">Лаба 6</string>
+</resources>

@@ -17,9 +17,11 @@ public class Group extends ListItem implements Parcelable {
     @NonNull
     @ColumnInfo(name = "group_name")
     public String groupName;
+
     public Group(@NonNull String groupName) {
         this.groupName = groupName;
     }
+
     protected Group(Parcel in) {
         id = in.readInt();
         groupName = in.readString();
@@ -57,15 +59,21 @@ public class Group extends ListItem implements Parcelable {
         return groupName.equals(group.groupName);
     }
 
+    public int getId() {
+        return id;
+    }
+
     @NonNull
     @Override
     public String toString() {
         return groupName;
     }
+
     @Override
     public int getType() {
         return TYPE_GROUP;
     }
+
     @Override
     public int hashCode() {
         return ObjectsCompat.hash(groupName);

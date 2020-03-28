@@ -14,36 +14,36 @@
         android:id="@+id/lab1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="lab1" />
+        android:text="@string/lab1" />
 
     <Button
         android:id="@+id/lab2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="lab2" />
+        android:text="@string/lab2" />
 
     <Button
         android:id="@+id/lab3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="lab3" />
+        android:text="@string/lab3" />
 
     <Button
         android:id="@+id/lab4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="lab4" />
+        android:text="@string/lab4" />
 
     <Button
         android:id="@+id/lab5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="lab5" />
+        android:text="@string/lab5" />
 
     <Button
         android:id="@+id/lab6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="lab6" />
+        android:text="@string/lab6" />
 
 </LinearLayout>

@@ -18,6 +18,7 @@ public class SearchTask extends Task<List<Repo>> {
     String repoString;
     int pageCount;
     private final ReposCache reposCache = ReposCache.getInstance();
+
     public SearchTask(Observer<List<Repo>> observer, String repoString, int pageCount) {
         super(observer);
         this.repoString = repoString;
@@ -26,9 +27,8 @@ public class SearchTask extends Task<List<Repo>> {
 
     @Override
     protected List<Repo> executeInBackground() throws Exception {
-
-            String response = search();
-            return parseSearch(response);
+        String response = search();
+        return parseSearch(response);
 
     }
 
@@ -36,32 +36,26 @@ public class SearchTask extends Task<List<Repo>> {
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://api.github.com/search/repositories?q=" + repoString +"&page=" + pageCount + "&per_page=20")
+                .url("https://api.github.com/search/repositories?q=" + repoString + "&page=" +
+                        pageCount + "&per_page=20")
                 .build();
         Response response = client.newCall(request).execute();
-
         return response.body().string();
-
     }
 
 
     private List<Repo> parseSearch(String response) throws JSONException {
 
         JSONObject responseJson = new JSONObject(response);
-        //List<Repo> repos = new ArrayList<>();
-       // repos.addAll(reposList);
         JSONArray items = responseJson.getJSONArray("items");
 
         for (int i = 0; i < items.length(); i++) {
             JSONObject repoJson = items.getJSONObject(i);
             Repo repo = new Repo();
             repo.fullName = repoJson.getString("full_name");
-            repo.url = repoJson.getString("html_url");
             repo.description = repoJson.getString("description");
-            repo.avatar = repoJson.getJSONObject("owner").getString("avatar_url");
             reposCache.addRepo(repo);
         }
-       // reposCache.addRepos(repos);
         return reposCache.getRepos();
     }
 

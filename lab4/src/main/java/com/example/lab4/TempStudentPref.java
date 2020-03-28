@@ -36,6 +36,7 @@ public class TempStudentPref {
 
         return prefs.getString(PREF_LAST_NAME, null);
     }
+
     @Nullable
     public String getGroupName() {
 

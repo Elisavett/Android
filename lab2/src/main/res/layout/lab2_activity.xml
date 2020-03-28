@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            </com.example.lab2.Lab2ViewsContainer>
+        </com.example.lab2.Lab2ViewsContainer>
     </ScrollView>
 
     <EditText
@@ -44,7 +44,6 @@
         android:layout_below="@+id/progress_title_label"
         android:layout_marginTop="2dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:text="" />
 
     <EditText

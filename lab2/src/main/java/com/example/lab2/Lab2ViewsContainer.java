@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.LinearLayout;
+
 import java.util.ArrayList;
 
 
@@ -15,6 +16,7 @@ public class Lab2ViewsContainer extends LinearLayout {
 
 
     public ArrayList<LinearLayout> layoutArrayList = new ArrayList<LinearLayout>();
+
     /**
      * Этот конструктор используется при создании View в коде.
      */
@@ -68,24 +70,20 @@ public class Lab2ViewsContainer extends LinearLayout {
         ProgressBar progressBar = new ProgressBar(this.getContext(), null, android.R.attr.progressBarStyleHorizontal);
         progressBar.setId(currId++);
 
-        if(progress > maxProgress)
-        {
-            if(currId!=1)
-            {
+        if (progress > maxProgress) {
+            if (currId != 1) {
                 ProgressBar prevMaxProgressBar = findViewById(maxProgressId);
                 prevMaxProgressBar.getProgressDrawable().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
             }
             maxProgress = progress;
             progressColor = Color.RED;
             maxProgressId = progressBar.getId();
-        }
-        else
-        {
+        } else {
             progressColor = Color.BLACK;
         }
 
         progressBar.setLayoutParams(layoutParams1);
-        progressBar.setProgress((int)Math.round(progress));
+        progressBar.setProgress((int) Math.round(progress));
         progressBar.getProgressDrawable().setColorFilter(progressColor, PorterDuff.Mode.SRC_IN);
         progressBar.setMax(10);
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,7 +35,6 @@ public class Lab5Activity extends AppCompatActivity {
     private SearchTask task;
     public ProgressDialog dialog;
     private SwipeRefreshLayout swipeContainer;
-
 
 
     public static Intent newIntent(@NonNull Context context) {
@@ -76,8 +76,8 @@ public class Lab5Activity extends AppCompatActivity {
         ErrorMsg = findViewById(R.id.ErrorMesg);
         RepeatButton = findViewById(R.id.button);
         //mWorkerThread = new MyWorkerThread("myWorkerThread");
-       // mWorkerThread.start();
-       // mWorkerThread.prepareHandler();
+        // mWorkerThread.start();
+        // mWorkerThread.prepareHandler();
         list.setAdapter(repoAdapter = new RepoAdapter(rc.getRepos()));
         // mTextViewResult = findViewById(R.id.textView);
         isLoading = true;
@@ -87,10 +87,11 @@ public class Lab5Activity extends AppCompatActivity {
                 super.onScrolled(recyclerView, dx, dy);
                 if (isLoading) {
                     if (dy > 0) {
-                        if ((layoutManager.getChildCount() + layoutManager.findFirstVisibleItemPosition()) >= layoutManager.getItemCount()) {
+                        if ((layoutManager.getChildCount() + layoutManager.findFirstVisibleItemPosition())
+                                >= layoutManager.getItemCount()) {
                             Log.d(TAG, "scroled");
                             insertionIndx = layoutManager.findFirstVisibleItemPosition();
-                            rc.setPageCount(rc.getPageCount()+1);
+                            rc.setPageCount(rc.getPageCount() + 1);
                             int pageCount = rc.getPageCount();
                             String currFindingString = rc.getSearchWord();
                             pgBar.setVisibility(View.VISIBLE);
@@ -103,7 +104,6 @@ public class Lab5Activity extends AppCompatActivity {
             }
         });
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-        // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -133,7 +133,6 @@ public class Lab5Activity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu, menu);
         MenuItem menuItem = menu.findItem(R.id.search_repos);
-        dialog = new ProgressDialog(this);
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -143,8 +142,8 @@ public class Lab5Activity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-                if(requestThread.isAlive())
-                 requestThread.interrupt();
+                if (requestThread.isAlive())
+                    requestThread.interrupt();
                 if (newText.length() > 2) {
                     rc.clear();
                     rc.setSearchWord(newText);
@@ -152,36 +151,31 @@ public class Lab5Activity extends AppCompatActivity {
                     Log.d(TAG, "textChanged");
                     pgBar.setVisibility(View.VISIBLE);
                     loadRepos(newText, rc.getPageCount());
-
                     insertionIndx = 0;
-
                 }
-
                 return false;
             }
         });
-
         return super.onCreateOptionsMenu(menu);
     }
 
 
-    Handler h = new Handler();
     public void loadRepos(final String repoSubstring, final int page) {
         Log.d(TAG, "loadRepo");
+        Handler handler = new Handler();
 
-        // requestThread.destroy();
-        h.postDelayed(new Runnable() {
+        Runnable r = new Runnable() {
             @Override
             public void run() {
 
-                    task = new SearchTask(searchObserver, repoSubstring, page);
-                    requestThread = new Thread(task);
-                    requestThread.start();
+                task = new SearchTask(searchObserver, repoSubstring, page);
+                requestThread = new Thread(task);
+                requestThread.start();
+            }
+        };
+        handler.removeCallbacks(r);
+        handler.postDelayed(r, 500);
 
-
-       // mWorkerThread.postTask(task);
-         }
-        }, 500);
 
     }
 
@@ -223,25 +217,22 @@ public class Lab5Activity extends AppCompatActivity {
         @Override
         public void onError(Task<List<Repo>> task, Exception e) {
 
-
-            RepeatButton.setOnClickListener(v->h.postDelayed(new Runnable() {
+            RepeatButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void run() {
+                public void onClick(View view) {
                     pgBar.setVisibility(View.VISIBLE);
                     ErrorLayout.setVisibility(View.INVISIBLE);
                     loadRepos(rc.getSearchWord(), rc.getPageCount());
                 }
-            }, 500));
-           // RepeatButton.setOnClickListener();
-            Log.d(TAG, "onError");
-                    pgBar.setVisibility(View.INVISIBLE);
-                    ErrorLayout.setVisibility(View.VISIBLE);
-                    ErrorMsg.setText(e.getMessage());
+            });
 
+
+            Log.d(TAG, "onError");
+            pgBar.setVisibility(View.INVISIBLE);
+            ErrorLayout.setVisibility(View.VISIBLE);
+            ErrorMsg.setText(e.getMessage());
         }
     };
-
-
 
 
 }

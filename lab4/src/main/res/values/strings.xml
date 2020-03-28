@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lab3</string>
+    <string name="lab4_app_name">Lab3</string>
     <string name="lab4_title">I\'m %s!</string>
     <string name="lab4_first_name">First name</string>
     <string name="lab4_second_name">Second name</string>

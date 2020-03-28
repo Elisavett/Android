@@ -4,11 +4,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
 
-public abstract class Task<T> implements Runnable{
+public abstract class Task<T> implements Runnable {
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     private Observer<T> observer;
-
 
 
     public Task(Observer<T> observer) {
@@ -18,27 +17,17 @@ public abstract class Task<T> implements Runnable{
     }
 
 
-
     @Override
 
     public final void run() {
-
         Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-
         mainHandler.post(new Runnable() {
-
             @Override
-
             public void run() {
-
                 if (observer != null) {
-
                     observer.onLoading(Task.this);
-
                 }
-
             }
-
         });
 
         try {
@@ -62,7 +51,7 @@ public abstract class Task<T> implements Runnable{
             });
 
         } catch (final Exception e) {
-              if (e.getClass() != java.io.InterruptedIOException.class) {
+            if (e.getClass() != java.io.InterruptedIOException.class) {
                 mainHandler.post(new Runnable() {
 
                     @Override
@@ -71,7 +60,7 @@ public abstract class Task<T> implements Runnable{
 
                         if (observer != null) {
 
-                                observer.onError(Task.this, e);
+                            observer.onError(Task.this, e);
 
 
                         }
@@ -80,15 +69,13 @@ public abstract class Task<T> implements Runnable{
 
                 });
 
-              }
+            }
         }
 
     }
 
 
-
     protected abstract T executeInBackground() throws Exception;
-
 
 
     public void unregisterObserver() {

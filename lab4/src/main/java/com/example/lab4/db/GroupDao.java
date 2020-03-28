@@ -26,7 +26,7 @@ public interface GroupDao {
 
     @Query(
             "SELECT * FROM groups WHERE " +
-                    "group_name = :groupName"
+                    "id = :groupId"
     )
-    Group getGroupByName(@NonNull String groupName);
+    Group getGroupById(@NonNull int groupId);
 }

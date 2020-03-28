@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.lab4.adapter.StudentsAdapter;
 import com.example.lab4.db.GroupDao;
 import com.example.lab4.db.Lab4Database;
 import com.example.lab4.db.StudentDao;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -45,6 +47,7 @@ public class Lab4Activity extends AppCompatActivity {
 
 
     private StudentsAdapter studentsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,39 +95,36 @@ public class Lab4Activity extends AppCompatActivity {
                         REQUEST_STUDENT_ADD
                 )
         );
-        fabGroup.setOnClickListener(v->showDialog(DIALOG_EXIT));
+        fabGroup.setOnClickListener(v -> dialogShow());
     }
 
-    protected Dialog onCreateDialog(int id) {
+    public void dialogShow() {
         EditText groupName = new EditText(this);
-        if (id == DIALOG_EXIT) {
+        //LayoutInflater inflater = getLayoutInflater();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // заголовок
+        builder.setTitle(R.string.lab4_dialog_title)
+                .setView(groupName)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
 
-            //LayoutInflater inflater = getLayoutInflater();
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            // заголовок
-            builder.setTitle(R.string.lab4_dialog_title)
-                    .setView(groupName)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
+                        Group group = new Group(
+                                groupName.getText().toString()
+                        );
+                        groupDao.insert(group);
 
-                            Group group = new Group(
-                                    groupName.getText().toString()
-                            );
-                            groupDao.insert(group);
+                        //studentsAdapter.setGroups(groupDao.getAll());
 
-                            //studentsAdapter.setGroups(groupDao.getAll());
-
-                        }
-                    });
-            return builder.create();
-        }
-        return super.onCreateDialog(id);
+                    }
+                }).show();
     }
+
+
     boolean isFromAddStudentActivity = false;
 
     @Override
     protected void onResume() {
-        if(isFromAddStudentActivity == false) {
+        if (isFromAddStudentActivity == false) {
             final SharedPreferences preferences = PreferenceManager
                     .getDefaultSharedPreferences(this);
             int position = preferences.getInt("position", 0);
@@ -133,6 +133,7 @@ public class Lab4Activity extends AppCompatActivity {
         }
         super.onResume();
     }
+
     @Override
     protected void onPause() {
         SharedPreferences preferences = PreferenceManager
@@ -143,37 +144,35 @@ public class Lab4Activity extends AppCompatActivity {
         super.onPause();
     }
 
-    public List<ListItem> sortStudents (List<Student> unsortedStudents)
-    {
+    public List<ListItem> sortStudents(List<Student> unsortedStudents) {
         boolean isFound;
 
         List<ListItem> sortedStudents = new ArrayList<>();
-        for (int j = 0; j < unsortedStudents.size(); j++ ) {
+        for (int j = 0; j < unsortedStudents.size(); j++) {
             isFound = false;
             Student currStudent = unsortedStudents.get(j);
-            for(int i = 0; i < sortedStudents.size(); i++)
-            {
-                if(sortedStudents.get(i).getType() == 0) continue;
-                Student st = (Student)sortedStudents.get(i);
-                String currStudentGroup = st.groupName;
-                if(currStudentGroup.equals(currStudent.groupName))
-                {
+            for (int i = 0; i < sortedStudents.size(); i++) {
+                if (sortedStudents.get(i).getType() == 0) continue;
+                Student st = (Student) sortedStudents.get(i);
+                int currStudentGroup = st.groupId;
+                if (currStudentGroup == currStudent.groupId) {
                     sortedStudents.add(i, currStudent);
                     isFound = true;
                     break;
                 }
             }
-            if(isFound == false)
-            {
+            if (isFound == false) {
                 isNewGroup = 1;
-                Group group = new Group(currStudent.groupName);
+                Group group = groupDao.getGroupById(currStudent.groupId);
                 sortedStudents.add(group);
                 sortedStudents.add(currStudent);
             }
         }
         return sortedStudents;
     }
+
     public int isNewGroup = 0;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -186,7 +185,7 @@ public class Lab4Activity extends AppCompatActivity {
             studentsAdapter.setStudents(sortedStudents);
             int insertionIndx = sortedStudents.indexOf(student);
             int insertionCount = 1;
-            if(insertionIndx == sortedStudents.size()-1)//при добавлении студента он ставится первым в группе(sortStudents)
+            if (insertionIndx == sortedStudents.size() - 1)//при добавлении студента он ставится первым в группе(sortStudents)
             {
                 insertionCount++;//в данном случае кроме студента добавляется группа
                 insertionIndx--;//группа указывается перед студентом

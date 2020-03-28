@@ -17,76 +17,78 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "students")
 public class Student extends ListItem implements Parcelable {
 
-	@PrimaryKey(autoGenerate = true)
-	public int id;
-	@NonNull
-	@ColumnInfo(name = "first_name")
-	public String firstName;
-	@NonNull
-	@ColumnInfo(name = "second_name")
-	public String secondName;
-	@NonNull
-	@ColumnInfo(name = "last_name")
-	public String lastName;
-	@NonNull
-	@ColumnInfo(name = "group_name")
-	public String groupName;
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+    @NonNull
+    @ColumnInfo(name = "first_name")
+    public String firstName;
+    @NonNull
+    @ColumnInfo(name = "second_name")
+    public String secondName;
+    @NonNull
+    @ColumnInfo(name = "last_name")
+    public String lastName;
+    @NonNull
+    @ColumnInfo(name = "group_id")
+    public int groupId;
 
-	public Student(@NonNull String firstName, @NonNull String secondName, @NonNull String lastName, @NonNull String groupName) {
-		this.lastName = lastName;
-		this.firstName = firstName;
-		this.secondName = secondName;
-		this.groupName = groupName;
-	}
+    public Student(@NonNull String firstName, @NonNull String secondName, @NonNull String lastName, @NonNull int groupId) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.groupId = groupId;
+    }
 
-	protected Student(Parcel in) {
-		firstName = in.readString();
-		lastName = in.readString();
-		secondName = in.readString();
-		groupName = in.readString();
-	}
-	public static final Creator<Student> CREATOR = new Creator<Student>() {
-		@Override
-		public Student createFromParcel(Parcel in) {
-			return new Student(in);
-		}
+    protected Student(Parcel in) {
+        firstName = in.readString();
+        lastName = in.readString();
+        secondName = in.readString();
+        groupId = in.readInt();
+    }
 
-		@Override
-		public Student[] newArray(int size) {
-			return new Student[size];
-		}
-	};
+    public static final Creator<Student> CREATOR = new Creator<Student>() {
+        @Override
+        public Student createFromParcel(Parcel in) {
+            return new Student(in);
+        }
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
+        @Override
+        public Student[] newArray(int size) {
+            return new Student[size];
+        }
+    };
 
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-		dest.writeString(firstName);
-		dest.writeString(lastName);
-		dest.writeString(secondName);
-		dest.writeString(groupName);
-	}
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Student)) return false;
-		Student student = (Student) o;
-		return lastName.equals(student.lastName) &&
-				firstName.equals(student.firstName) &&
-				secondName.equals(student.secondName);
-	}
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeString(secondName);
+        dest.writeInt(groupId);
+    }
 
-	@Override
-	public int hashCode() {
-		return ObjectsCompat.hash(lastName, firstName, secondName, groupName);
-	}
-	@Override
-	public int getType() {
-		return TYPE_STUDENT;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+        Student student = (Student) o;
+        return lastName.equals(student.lastName) &&
+                firstName.equals(student.firstName) &&
+                secondName.equals(student.secondName);
+    }
+
+    @Override
+    public int hashCode() {
+        return ObjectsCompat.hash(lastName, firstName, secondName, groupId);
+    }
+
+    @Override
+    public int getType() {
+        return TYPE_STUDENT;
+    }
 }
