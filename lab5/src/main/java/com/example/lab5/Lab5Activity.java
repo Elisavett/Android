@@ -35,6 +35,8 @@ public class Lab5Activity extends AppCompatActivity {
     private SearchTask task;
     public ProgressDialog dialog;
     private SwipeRefreshLayout swipeContainer;
+    private Runnable r;
+    Handler handler;
 
 
     public static Intent newIntent(@NonNull Context context) {
@@ -64,7 +66,7 @@ public class Lab5Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        handler = new Handler();
         setContentView(R.layout.lab5_activity);
         setTitle(getString(R.string.lab5_title, getClass().getSimpleName()));
         list = findViewById(R.id.ReposList);
@@ -75,11 +77,9 @@ public class Lab5Activity extends AppCompatActivity {
         ErrorLayout = findViewById(R.id.ErrorLayout);
         ErrorMsg = findViewById(R.id.ErrorMesg);
         RepeatButton = findViewById(R.id.button);
-        //mWorkerThread = new MyWorkerThread("myWorkerThread");
-        // mWorkerThread.start();
-        // mWorkerThread.prepareHandler();
+
         list.setAdapter(repoAdapter = new RepoAdapter(rc.getRepos()));
-        // mTextViewResult = findViewById(R.id.textView);
+
         isLoading = true;
         list.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -162,9 +162,9 @@ public class Lab5Activity extends AppCompatActivity {
 
     public void loadRepos(final String repoSubstring, final int page) {
         Log.d(TAG, "loadRepo");
-        Handler handler = new Handler();
 
-        Runnable r = new Runnable() {
+        handler.removeCallbacks(r);
+        r = new Runnable() {
             @Override
             public void run() {
 
@@ -173,7 +173,6 @@ public class Lab5Activity extends AppCompatActivity {
                 requestThread.start();
             }
         };
-        handler.removeCallbacks(r);
         handler.postDelayed(r, 500);
 
 

@@ -56,14 +56,17 @@ public class AddStudentActivity extends AppCompatActivity {
 
 
         Bundle arguments = getIntent().getExtras();
-        Student student = null;
+        StudentGroup student = null;
+
         if (arguments != null)
-            student = (Student) arguments.get("Student");
+            student = (StudentGroup) arguments.get("Student");
+
         if (student != null) {
-            firstName.setText(student.firstName);
-            secondName.setText(student.secondName);
-            lastName.setText(student.lastName);
-            Group g = groupDao.getGroupById(student.groupId);
+            String[] name = student.studentName.split(" ");
+            firstName.setText(name[0]);
+            secondName.setText(name[1]);
+            lastName.setText(name[2]);
+            Group g = new Group(student.groupName);
             group.setSelection(adapter.getPosition(g));
         }
     }

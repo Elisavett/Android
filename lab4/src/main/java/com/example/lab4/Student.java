@@ -15,7 +15,7 @@ import androidx.room.PrimaryKey;
  * как сохранить и восстановить объект используя примитивные свойства (String, int и т.д.).
  */
 @Entity(tableName = "students")
-public class Student extends ListItem implements Parcelable {
+public class Student implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     public int id;
@@ -87,8 +87,4 @@ public class Student extends ListItem implements Parcelable {
         return ObjectsCompat.hash(lastName, firstName, secondName, groupId);
     }
 
-    @Override
-    public int getType() {
-        return TYPE_STUDENT;
-    }
 }

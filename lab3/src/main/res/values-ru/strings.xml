@@ -10,4 +10,5 @@
     <string name="lab3_groupName">Название группы</string>
     <string name="lab3_last_name">Отчество</string>
     <string name="lab3_second_name">Фамилия</string>
+    <string name="lab3_DialogOk">OK</string>
 </resources>

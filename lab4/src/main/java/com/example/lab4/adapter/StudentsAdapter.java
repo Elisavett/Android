@@ -11,6 +11,7 @@ import com.example.lab4.AddStudentActivity;
 import com.example.lab4.Group;
 import com.example.lab4.ListItem;
 import com.example.lab4.Student;
+import com.example.lab4.StudentGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,8 +67,6 @@ public class StudentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @NonNull
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
-            /*case TYPE_NUMBER:
-                return new NumberHolder(parent);*/
             case TYPE_STUDENT:
                 return new StudentHolder(parent);
            case TYPE_GROUP:
@@ -79,17 +78,12 @@ public class StudentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
-            /*case TYPE_NUMBER:
-                NumberHolder numberHolder = (NumberHolder) holder;
-                // Высчитыванием номер студента начиная с 1
-                numberHolder.bind((position + 1) / 2);
-                break;*/
             case TYPE_STUDENT:
                 StudentHolder studentHolder = (StudentHolder) holder;
-                Student student = (Student) students.get(position);
+                StudentGroup student = (StudentGroup) students.get(position);
                 //Group group = groups.get(position);
                 studentHolder.student.setText(
-                        student.firstName + " " + student.secondName + " " + student.lastName
+                        student.studentName
                 );
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                                                        @Override

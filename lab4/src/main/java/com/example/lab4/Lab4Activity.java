@@ -36,9 +36,9 @@ public class Lab4Activity extends AppCompatActivity {
     private RecyclerView list;
     private FloatingActionButton fab;
     private FloatingActionButton fabGroup;
+    private AddGroupDialog addGroupDialog;
 
     private StudentDao studentDao;
-    private GroupDao groupDao;
 
     private static final int REQUEST_STUDENT_ADD = 3;
     private static final int REQUEST_GROUP_ADD = 2;
@@ -57,8 +57,8 @@ public class Lab4Activity extends AppCompatActivity {
         fab = findViewById(R.id.fab);
         fabGroup = findViewById(R.id.fabGroup);
         studentDao = Lab4Database.getInstance(this).studentDao();
-        groupDao = Lab4Database.getInstance(this).groupDao();
-        List<Student> unsortedStudents = studentDao.getAll();
+        addGroupDialog = new AddGroupDialog(this);
+        List<StudentGroup> unsortedStudents = studentDao.getStudentsWithGroups();
 
         list.setAdapter(studentsAdapter = new StudentsAdapter());
         studentsAdapter.setStudents(sortStudents(unsortedStudents));
@@ -95,29 +95,10 @@ public class Lab4Activity extends AppCompatActivity {
                         REQUEST_STUDENT_ADD
                 )
         );
-        fabGroup.setOnClickListener(v -> dialogShow());
+        fabGroup.setOnClickListener(v -> addGroupDialog.show());
     }
 
-    public void dialogShow() {
-        EditText groupName = new EditText(this);
-        //LayoutInflater inflater = getLayoutInflater();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        // заголовок
-        builder.setTitle(R.string.lab4_dialog_title)
-                .setView(groupName)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
 
-                        Group group = new Group(
-                                groupName.getText().toString()
-                        );
-                        groupDao.insert(group);
-
-                        //studentsAdapter.setGroups(groupDao.getAll());
-
-                    }
-                }).show();
-    }
 
 
     boolean isFromAddStudentActivity = false;
@@ -143,19 +124,23 @@ public class Lab4Activity extends AppCompatActivity {
         preferences.edit().putInt("position", firstVisiblePosition).apply();
         super.onPause();
     }
-
-    public List<ListItem> sortStudents(List<Student> unsortedStudents) {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        addGroupDialog.dismiss();
+    }
+    public List<ListItem> sortStudents(List<StudentGroup> unsortedStudents) {
         boolean isFound;
 
         List<ListItem> sortedStudents = new ArrayList<>();
         for (int j = 0; j < unsortedStudents.size(); j++) {
             isFound = false;
-            Student currStudent = unsortedStudents.get(j);
+            StudentGroup currStudent = unsortedStudents.get(j);
             for (int i = 0; i < sortedStudents.size(); i++) {
                 if (sortedStudents.get(i).getType() == 0) continue;
-                Student st = (Student) sortedStudents.get(i);
-                int currStudentGroup = st.groupId;
-                if (currStudentGroup == currStudent.groupId) {
+                StudentGroup st = (StudentGroup) sortedStudents.get(i);
+                String currStudentGroup = st.groupName;
+                if (currStudentGroup.equals(currStudent.groupName)) {
                     sortedStudents.add(i, currStudent);
                     isFound = true;
                     break;
@@ -163,7 +148,7 @@ public class Lab4Activity extends AppCompatActivity {
             }
             if (isFound == false) {
                 isNewGroup = 1;
-                Group group = groupDao.getGroupById(currStudent.groupId);
+                Group group = new Group(currStudent.groupName);
                 sortedStudents.add(group);
                 sortedStudents.add(currStudent);
             }
@@ -180,7 +165,7 @@ public class Lab4Activity extends AppCompatActivity {
             Student student = AddStudentActivity.getResultStudent(data);
             studentDao.insert(student);
 
-            List<Student> unsortedStudents = studentDao.getAll();
+            List<StudentGroup> unsortedStudents = studentDao.getStudentsWithGroups();
             List<ListItem> sortedStudents = sortStudents(unsortedStudents);
             studentsAdapter.setStudents(sortedStudents);
             int insertionIndx = sortedStudents.indexOf(student);

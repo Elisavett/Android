@@ -10,4 +10,5 @@
     <string name="lab4_last_name">Отчество</string>
     <string name="lab4_second_name">Фамилия</string>
     <string name="lab4_title">Я %s!</string>
+    <string name="lab4_DialogOk">OK</string>
 </resources>

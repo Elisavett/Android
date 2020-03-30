@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.lab4.Student;
+import com.example.lab4.StudentGroup;
 
 import java.util.List;
 
@@ -32,4 +33,9 @@ public interface StudentDao {
                     "group_id = :groupId"
     )
     int count(@NonNull String firstName, @NonNull String secondName, @NonNull String lastName, @NonNull int groupId);
+    @Query("SELECT first_name || ' ' || second_name || ' ' || last_name as studentName, " +
+            "group_name as groupName " +
+            "FROM students as s INNER JOIN groups as g " +
+            "ON s.group_id = g.id")
+    List<StudentGroup> getStudentsWithGroups();
 }

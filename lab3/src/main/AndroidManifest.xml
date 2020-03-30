@@ -5,8 +5,7 @@
     <application>
 <!--        <activity android:name=".AddGroupActivity"></activity>-->
         <activity android:name=".AddStudentActivity" />
-        <activity android:name=".Lab3Activity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".Lab3Activity"/>
     </application>
 
 </manifest>

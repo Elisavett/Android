@@ -24,9 +24,5 @@ public interface GroupDao {
     @Insert
     void insert(@NonNull Group group);
 
-    @Query(
-            "SELECT * FROM groups WHERE " +
-                    "id = :groupId"
-    )
-    Group getGroupById(@NonNull int groupId);
+
 }

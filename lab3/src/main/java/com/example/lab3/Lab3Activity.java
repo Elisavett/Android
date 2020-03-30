@@ -1,6 +1,7 @@
 package com.example.lab3;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -24,9 +25,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -63,11 +67,11 @@ public class Lab3Activity extends AppCompatActivity {
     }
 
     private final StudentsCache studentsCache = StudentsCache.getInstance();
-    private final GroupCache groupsCache = GroupCache.getInstance();
 
     private RecyclerView list;
     private FloatingActionButton fab;
     private FloatingActionButton fabGroup;
+    private AddGroupDialog addGroupDialog;
 
     private static final int REQUEST_STUDENT_ADD = 1;
     private static final int REQUEST_GROUP_ADD = 2;
@@ -77,6 +81,7 @@ public class Lab3Activity extends AppCompatActivity {
 
     private StudentsAdapter studentsAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +90,7 @@ public class Lab3Activity extends AppCompatActivity {
         list = findViewById(android.R.id.list);
         fab = findViewById(R.id.fab);
         fabGroup = findViewById(R.id.fabGroup);
+        addGroupDialog = new AddGroupDialog(this);
 
 
         /*
@@ -118,25 +124,14 @@ public class Lab3Activity extends AppCompatActivity {
                         REQUEST_STUDENT_ADD
                 )
         );
-        fabGroup.setOnClickListener(v -> dialogShow());
+        fabGroup.setOnClickListener(v -> addGroupDialog.show());
     }
 
-    public void dialogShow() {
-        EditText groupName = new EditText(this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.lab3_dialog_title)
-                .setView(groupName)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
 
-                        Group group = new Group(
-                                groupName.getText().toString()
-                        );
-
-                        groupsCache.addGroup(group);
-
-                    }
-                }).show();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+            addGroupDialog.dismiss();
     }
 
     @Override
