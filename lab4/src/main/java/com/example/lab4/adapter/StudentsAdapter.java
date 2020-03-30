@@ -69,7 +69,7 @@ public class StudentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         switch (viewType) {
             case TYPE_STUDENT:
                 return new StudentHolder(parent);
-           case TYPE_GROUP:
+            case TYPE_GROUP:
                 return new StudentGroupHolder(parent);
         }
         throw new IllegalArgumentException("unknown viewType = " + viewType);
@@ -111,12 +111,12 @@ public class StudentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-       return students.size();
+        return students.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-       return students.get(position).getType();
+        return students.get(position).getType();
     }
 
     public void setStudents(List<ListItem> students) {

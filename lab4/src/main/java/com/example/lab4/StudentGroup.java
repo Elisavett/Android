@@ -12,10 +12,12 @@ public class StudentGroup extends ListItem implements Parcelable {
         this.studentName = studentName;
         this.groupName = groupName;
     }
+
     private StudentGroup(Parcel in) {
         studentName = in.readString();
         groupName = in.readString();
     }
+
     @Override
     public int getType() {
         return TYPE_STUDENT;
@@ -25,6 +27,7 @@ public class StudentGroup extends ListItem implements Parcelable {
     public int describeContents() {
         return 0;
     }
+
     public static final Creator<StudentGroup> CREATOR = new Creator<StudentGroup>() {
         @Override
         public StudentGroup createFromParcel(Parcel in) {

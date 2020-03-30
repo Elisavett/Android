@@ -99,8 +99,6 @@ public class Lab4Activity extends AppCompatActivity {
     }
 
 
-
-
     boolean isFromAddStudentActivity = false;
 
     @Override
@@ -124,11 +122,13 @@ public class Lab4Activity extends AppCompatActivity {
         preferences.edit().putInt("position", firstVisiblePosition).apply();
         super.onPause();
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         addGroupDialog.dismiss();
     }
+
     public List<ListItem> sortStudents(List<StudentGroup> unsortedStudents) {
         boolean isFound;
 
