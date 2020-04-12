@@ -36,9 +36,10 @@ public class Lab4Activity extends AppCompatActivity {
     private RecyclerView list;
     private FloatingActionButton fab;
     private FloatingActionButton fabGroup;
-    private AddGroupDialog addGroupDialog;
+    private AlertDialog addGroupDialog;
 
     private StudentDao studentDao;
+    private GroupDao groupDao;
 
     private static final int REQUEST_STUDENT_ADD = 3;
     private static final int REQUEST_GROUP_ADD = 2;
@@ -57,13 +58,26 @@ public class Lab4Activity extends AppCompatActivity {
         fab = findViewById(R.id.fab);
         fabGroup = findViewById(R.id.fabGroup);
         studentDao = Lab4Database.getInstance(this).studentDao();
-        addGroupDialog = new AddGroupDialog(this);
+        groupDao = Lab4Database.getInstance(this).groupDao();
         List<StudentGroup> unsortedStudents = studentDao.getStudentsWithGroups();
 
         list.setAdapter(studentsAdapter = new StudentsAdapter());
         studentsAdapter.setStudents(sortStudents(unsortedStudents));
 
+        EditText groupName = new EditText(this);
+        addGroupDialog = new AlertDialog.Builder(this).create();
+        addGroupDialog.setTitle(R.string.lab4_dialog_title);
+        addGroupDialog.setView(groupName);
+        addGroupDialog.setButton(Dialog.BUTTON_POSITIVE, "OK",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
 
+                Group group = new Group(
+                        groupName.getText().toString()
+                );
+                groupDao.insert(group);
+
+            }
+        });
         /*
         Здесь идёт инициализация RecyclerView. Первое, что необходимо для его работы, это установить
         реализацию LayoutManager-а. Он содержит логику размещения View внутри RecyclerView. Так,

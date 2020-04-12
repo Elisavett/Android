@@ -67,11 +67,11 @@ public class Lab3Activity extends AppCompatActivity {
     }
 
     private final StudentsCache studentsCache = StudentsCache.getInstance();
+    private final GroupCache groupsCache = GroupCache.getInstance();
 
     private RecyclerView list;
     private FloatingActionButton fab;
     private FloatingActionButton fabGroup;
-    private AddGroupDialog addGroupDialog;
 
     private static final int REQUEST_STUDENT_ADD = 1;
     private static final int REQUEST_GROUP_ADD = 2;
@@ -82,6 +82,7 @@ public class Lab3Activity extends AppCompatActivity {
     private StudentsAdapter studentsAdapter;
 
 
+    AlertDialog addGroupDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +91,23 @@ public class Lab3Activity extends AppCompatActivity {
         list = findViewById(android.R.id.list);
         fab = findViewById(R.id.fab);
         fabGroup = findViewById(R.id.fabGroup);
-        addGroupDialog = new AddGroupDialog(this);
+
+        EditText groupName = new EditText(this);
+        addGroupDialog = new AlertDialog.Builder(this).create();
+        addGroupDialog.setTitle(R.string.lab3_dialog_title);
+        addGroupDialog.setView(groupName);
+        addGroupDialog.setButton(Dialog.BUTTON_POSITIVE, "OK",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                Group group = new Group(
+                        groupName.getText().toString()
+                );
+                groupsCache.addGroup(group);
+
+            }
+        });
+
+
 
 
         /*
@@ -131,7 +148,7 @@ public class Lab3Activity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-            addGroupDialog.dismiss();
+        addGroupDialog.dismiss();
     }
 
     @Override
